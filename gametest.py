@@ -9,15 +9,11 @@ class Engine(object):
 
     def __init__(self, fighter):
         self.enemy = fighter
+        print "A wild %s has appeared!" % self.enemy.name
+        time.sleep(1)
+        print "\'%s\'" % self.enemy.intro
+        time.sleep(1)
 
-    
-    hero = Character(hero_stats, hero_quotes)
-    heromagic = Magic()
-    
-    print "A wild %s has appeared!" % self.enemy.name
-    time.sleep(1)
-    print "\'%s\'" % self.enemy.intro
-    time.sleep(1)
 
     def disp_stat(good_guy, bad_guy):
         print ""
@@ -33,98 +29,99 @@ class Engine(object):
             print "Which spell?"
             print "\n[H]eal:5MP [S]andpaper:10MP [C]haos_Dunk:20MP [B]ack"
 
+    def run(hero, heromagic, enemy):
 
-    while True:
+        while True:
 
-        if hero.hp  > 0:
+            if hero.hp  > 0:
 
-            my_turn = 1
-            while my_turn == 1: #allows me to loop prompt until a satisfactory answer is given
+                my_turn = 1
+                while my_turn == 1: #allows me to loop prompt until a satisfactory answer is given
 
+                    Engine.disp_stat(hero, enemy)
+                    time.sleep(1)
+                    print "What will you do?"
+                    print "\n[A]ttack [M]agic M[y]stery [Run]"
+                    action = raw_input("> ")
+                    action = action.lower()
+                    print ""
+
+                    if action in ("a", "attack"):
+                        hero.attack(self.enemy)
+                        time.sleep(1)
+                        my_turn = 0 # break out of prompt loop
+
+                    elif action in ("m", "magic"):
+
+                        magic_turn = 1
+                        while magic_turn == 1:
+
+                            disp_magic(hero)
+                            spell = raw_input("> ")
+                            spell = spell.lower()
+                            print ""
+
+                            if spell in ("h", "heal"):
+                                if hero.mp >= heromagic.heal_mp:
+                                    heromagic.heal(hero)
+                                    my_turn = 0 # break out of promt loop
+                                    magic_turn = 0
+                                else:
+                                    print "Not enough MP"
+
+                            elif spell in ("s", "sandpaper"):
+                                if hero.mp >= heromagic.sandpaper_mp:
+                                    heromagic.sandpaper(hero, lucas)
+                                    my_turn = 0 # break out of prompt loop
+                                    magic_turn = 0
+                                else:
+                                    print "Not enough MP"
+
+                            elif (spell in ("c", "chaos", "chaos_dunk", "chaos dunk")) and (hero.lvl >= 3):
+                                if hero.mp >= heromagic.chaos_mp:
+                                    heromagic.chaos_dunk(hero, lucas)
+                                    my_turn = 0 # break out of prompt loop
+                                    magic_turn = 0
+                                else:
+                                    print "Not enough MP"
+
+                            elif spell in ("b", "back"):
+                                magic_turn = 0
+
+                            else:    
+                                print "404 error: The spell you are looking for cannot be found."
+
+                    elif action in ("r", "run"):
+                        hero.run()
+                    else:
+                        print "Please type one of the words listed or simply the letter in the brackets."
+
+            else:
                 disp_stat(hero, self.enemy)
                 time.sleep(1)
-                print "What will you do?"
-                print "\n[A]ttack [M]agic M[y]stery [Run]"
-                action = raw_input("> ")
-                action = action.lower()
-                print ""
+                print "You've died! So sad."
+                exit(1)
+            print ""
 
-                if action in ("a", "attack"):
-                    hero.attack(self.enemy)
-                    time.sleep(1)
-                    my_turn = 0 # break out of prompt loop
-
-                elif action in ("m", "magic"):
-
-                    magic_turn = 1
-                    while magic_turn == 1:
-
-                        disp_magic(hero)
-                        spell = raw_input("> ")
-                        spell = spell.lower()
-                        print ""
-
-                        if spell in ("h", "heal"):
-                            if hero.mp >= heromagic.heal_mp:
-                                heromagic.heal(hero)
-                                my_turn = 0 # break out of promt loop
-                                magic_turn = 0
-                            else:
-                                print "Not enough MP"
-
-                        elif spell in ("s", "sandpaper"):
-                            if hero.mp >= heromagic.sandpaper_mp:
-                                heromagic.sandpaper(hero, lucas)
-                                my_turn = 0 # break out of prompt loop
-                                magic_turn = 0
-                            else:
-                                print "Not enough MP"
-
-                        elif (spell in ("c", "chaos", "chaos_dunk", "chaos dunk")) and (hero.lvl >= 3):
-                            if hero.mp >= heromagic.chaos_mp:
-                                heromagic.chaos_dunk(hero, lucas)
-                                my_turn = 0 # break out of prompt loop
-                                magic_turn = 0
-                            else:
-                                print "Not enough MP"
-
-                        elif spell in ("b", "back"):
-                            magic_turn = 0
-
-                        else:    
-                            print "404 error: The spell you are looking for cannot be found."
-
-                elif action in ("r", "run"):
-                    hero.run()
-                else:
-                    print "Please type one of the words listed or simply the letter in the brackets."
-
-        else:
+            if self.enemy.hp < 0:
+                self.enemy.hp = 0 #that way he doesnt have negative health
+            time.sleep(1)    
             disp_stat(hero, self.enemy)
             time.sleep(1)
-            print "You've died! So sad."
-            exit(1)
-        print ""
+            if self.enemy.hp > 0:
+                print "And now %s!" % self.enemy.name
+                time.sleep(1)
+                self.enemy.ai(hero)
+                if hero.hp < 0:
+                    hero.hp = 0 # if hero dies, go to 0 health
+                time.sleep(1)
 
-        if self.enemy.hp < 0:
-            self.enemy.hp = 0 #that way he doesnt have negative health
-        time.sleep(1)    
-        disp_stat(hero, self.enemy)
-        time.sleep(1)
-        if self.enemy.hp > 0:
-            print "And now %s!" % self.enemy.name
-            time.sleep(1)
-            self.enemy.ai(hero)
-            if hero.hp < 0:
-                hero.hp = 0 # if hero dies, go to 0 health
-            time.sleep(1)
-
-        else:
-            print "\'%s\'" % self.enemy.outro
-            print ""
-            print "You win! Brllnt!"
-            hero.LevelUp(hero)
-            exit(1)
+            else:
+                print "\'%s\'" % self.enemy.outro
+                print ""
+                print "You win! Brllnt!"
+                hero.LevelUp(hero)
+                exit(1)
 
 
 #class FightOrder(object):
@@ -146,4 +143,9 @@ class Engine(object):
 #tutorial = FightOrder()
 #my_game = Engine(tutorial.fighter[0])
 #my_game.play()
-a = Engine(Character(luke_stats, luke_quotes))
+hero = Character(hero_stats, hero_quotes)
+heromagic = Magic()
+lucas = Character(luke_stats, luke_quotes)
+
+a = Engine(lucas)
+a.run(hero, heromagic, lucas)
