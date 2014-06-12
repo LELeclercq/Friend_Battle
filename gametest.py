@@ -7,21 +7,21 @@ import time
 
 class Engine(object):
 
-    def __init__(self, fighter):
-        self.enemy = fighter
-        print "A wild %s has appeared!" % self.enemy.name
-        time.sleep(1)
-        print "\'%s\'" % self.enemy.intro
-        time.sleep(1)
+    def __init__(self, setup, fighter, guy, guymagic):
+        self.guy = guy
+        self.guymagic = guymagic
+        self.setup = setup
+       # self.enemy = fighter
+        
 
 
-    def disp_stat(good_guy, bad_guy):
+    def disp_stat(self, good_guy, bad_guy):
         print ""
         print "HP: %d\t MP: %d" % (good_guy.hp, good_guy.mp)
         print "%s\'s HP: " % bad_guy.name, bad_guy.hp
         print ""
 
-    def disp_magic(protag):
+    def disp_magic(self, protag):
         if protag.lvl < 3:
             print "Which spell?"
             print "\n[H]eal:5MP [S]andpaper:10MP [B]ack"
@@ -29,16 +29,27 @@ class Engine(object):
             print "Which spell?"
             print "\n[H]eal:5MP [S]andpaper:10MP [C]haos_Dunk:20MP [B]ack"
 
-    def run(hero, heromagic, enemy):
+    def moving_on(self, setup):
+        new_enemy = setup.next_battle()
+        self.run(self.guy, self.guymagic, new_enemy)
+        
 
-        while True:
+    def run(self, hero, heromagic, enemy):
+        
+        print "A wild %s has appeared!" % enemy.name
+        time.sleep(1)
+        print "\'%s\'" % enemy.intro
+        time.sleep(1)
+        
+        combat = True
+        while combat== True:
 
             if hero.hp  > 0:
 
                 my_turn = 1
                 while my_turn == 1: #allows me to loop prompt until a satisfactory answer is given
 
-                    Engine.disp_stat(hero, enemy)
+                    self.disp_stat(hero, enemy)
                     time.sleep(1)
                     print "What will you do?"
                     print "\n[A]ttack [M]agic M[y]stery [Run]"
@@ -47,7 +58,7 @@ class Engine(object):
                     print ""
 
                     if action in ("a", "attack"):
-                        hero.attack(self.enemy)
+                        hero.attack(enemy)
                         time.sleep(1)
                         my_turn = 0 # break out of prompt loop
 
@@ -56,7 +67,7 @@ class Engine(object):
                         magic_turn = 1
                         while magic_turn == 1:
 
-                            disp_magic(hero)
+                            self.disp_magic(hero)
                             spell = raw_input("> ")
                             spell = spell.lower()
                             print ""
@@ -71,7 +82,7 @@ class Engine(object):
 
                             elif spell in ("s", "sandpaper"):
                                 if hero.mp >= heromagic.sandpaper_mp:
-                                    heromagic.sandpaper(hero, lucas)
+                                    heromagic.sandpaper(hero, enemy)
                                     my_turn = 0 # break out of prompt loop
                                     magic_turn = 0
                                 else:
@@ -79,7 +90,7 @@ class Engine(object):
 
                             elif (spell in ("c", "chaos", "chaos_dunk", "chaos dunk")) and (hero.lvl >= 3):
                                 if hero.mp >= heromagic.chaos_mp:
-                                    heromagic.chaos_dunk(hero, lucas)
+                                    heromagic.chaos_dunk(hero, enemy)
                                     my_turn = 0 # break out of prompt loop
                                     magic_turn = 0
                                 else:
@@ -97,55 +108,55 @@ class Engine(object):
                         print "Please type one of the words listed or simply the letter in the brackets."
 
             else:
-                disp_stat(hero, self.enemy)
+                self.disp_stat(hero, enemy)
                 time.sleep(1)
                 print "You've died! So sad."
                 exit(1)
-            print ""
+            #print ""
 
-            if self.enemy.hp < 0:
-                self.enemy.hp = 0 #that way he doesnt have negative health
-            time.sleep(1)    
-            disp_stat(hero, self.enemy)
+            if enemy.hp < 0:
+                enemy.hp = 0 #that way he doesnt have negative health
+           # time.sleep(1)    
+            self.disp_stat(hero, enemy)
             time.sleep(1)
-            if self.enemy.hp > 0:
-                print "And now %s!" % self.enemy.name
+            if enemy.hp > 0:
+                print "And now %s!" % enemy.name
                 time.sleep(1)
-                self.enemy.ai(hero)
+                enemy.ai(hero)
                 if hero.hp < 0:
                     hero.hp = 0 # if hero dies, go to 0 health
                 time.sleep(1)
 
             else:
-                print "\'%s\'" % self.enemy.outro
+                print "\'%s\'" % enemy.outro
                 print ""
                 print "You win! Brllnt!"
                 hero.LevelUp(hero)
-                exit(1)
+                combat = False
+       
+        self.moving_on(self.setup) 
 
 
-#class FightOrder(object):
+class FightOrder(object):
+  
+    def __init__(self):
+        self.fight_num = 0
+        self.fighter = [Character(luke_stats, luke_quotes), Character(dom_stats, dom_quotes)]
+   
+    def next_battle(self):
+        self.fight_num += 1
+        if self.fight_num >= len(self.fighter):
+            print "Congratulations! You've defeated all of your friends!\n\n\n"
+            exit(1)
+        else:
+            return self.fighter[self.fight_num]
 
- #   fighter = [Character(luke_stats, luke_quotes), Character(dom_stats, dom_quotes)]
-    
-    
-#    def __init__(self, first_fighter):
- #       self.first_fighter = first_fighter
+    def opening_battle(self):
+        return self.fighter[self.fight_num]
 
-  #  def next_fighter(self, fighter_name):
-   #     val = FightOrder.fighter.get(fighter_name)
-    #    return val
-
-    #def opening_fighter(self):
-     #   return self.next_fighter(self.first_fighter)
-
-
-#tutorial = FightOrder()
-#my_game = Engine(tutorial.fighter[0])
-#my_game.play()
 hero = Character(hero_stats, hero_quotes)
 heromagic = Magic()
-lucas = Character(luke_stats, luke_quotes)
-
-a = Engine(lucas)
-a.run(hero, heromagic, lucas)
+setup = FightOrder()
+enemy = setup.opening_battle()
+a = Engine(setup, enemy, hero, heromagic)
+a.run(hero, heromagic, enemy)

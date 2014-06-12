@@ -8,7 +8,7 @@ luke_stats = {'name': 'Lucas', 'hp': 20, 'mp': 5, 'atkstr': range(1, 3),
 
 luke_quotes = ['Lucas complains at you until your ears bleed!','Lucas beaches you to death!']
 
-dom_stats = {'name': 'Dom', 'hp': 40, 'mp': 20, 'atkstr': range(3, 5),
+dom_stats = {'name': 'Dom', 'hp': 40, 'mp': 20, 'atkstr': range(3, 6),
               'intro_quote': 'How do you play this game again?',
               'outro_quote': 'Whatever, I\'m just gonna move to North Carolina'}
 
@@ -18,7 +18,7 @@ dom_quotes = ['Dom stumbles into you, mumbling apologies and mentioning somethin
               'Dom pukes up a ton of blood on you. Like, a metric ton of blood. Then he passes out on the floor.',
               'Dom uses his drunk strength to sock you in the stomach. You fly at least a foot off the ground.']
 
-hero_stats = {'name': 'Lawrence', 'hp': 10, 'mp': 20, 'atkstr': range(4, 7),
+hero_stats = {'name': 'Lawrence', 'hp': 10, 'mp': 10, 'atkstr': range(4, 7),
               'intro_quote': 'none', 'outro_quote': 'none'}
 
 hero_quotes = ['What a hit!', 'I can\'t believe he took that much damage!']
@@ -64,17 +64,19 @@ class Character(object):
         self.lvl = old_hero.lvl + 1
         self.hp = self.lvl * 10
         self.mp = ((self.lvl - 1) * 4) + 10
-        self.atkstr = ((self.lvl - 1) * 2) + 5
+        self.atkstr = [((self.lvl - 1) * 2) + x for x in self.atkstr]
         print "%s has reached Level %d!" % (self.name, self.lvl)
         time.sleep(1)
         print "HP rose to %d!" % self.hp
         time.sleep(1)
         print "MP rose to %d!" % self.mp
         time.sleep(1)
-        print "ATK rose to %d!" % self.atkstr
+        print "ATK rose by 2!"
         if self.lvl == 3:
             time.sleep(1)
             print "%s has learned Chaos_Dunk!" % old_hero.name
+
+        print "\n\n"
 
     def ai(self, hero):
         if self.name == 'Lucas':
