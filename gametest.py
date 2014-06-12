@@ -11,7 +11,6 @@ class Engine(object):
         self.guy = guy
         self.guymagic = guymagic
         self.setup = setup
-       # self.enemy = fighter
         
 
 
