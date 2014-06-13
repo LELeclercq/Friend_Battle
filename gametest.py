@@ -67,7 +67,7 @@ class Engine(object):
                     self.disp_stat(hero, enemy)
                     time.sleep(1)
                     print "What will you do?"
-                    print "\n[A]ttack [M]agic M[y]stery [Run]"
+                    print "\n[A]ttack [M]agic M[y]stery [R]un"
                     action = raw_input("> ")
                     action = action.lower()
                     print ""

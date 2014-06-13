@@ -201,7 +201,7 @@ class Character(object):
     def escape(self):
         run_loop = 1
         while run_loop == 1:
-            really = raw_input("Are you sure? [Y]es [No]\n> ")
+            really = raw_input("Are you sure? [Y]es [N]o\n> ")
             really = really.lower()
             if really in ("y", "yes"):
                 
