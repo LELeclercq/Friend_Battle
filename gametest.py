@@ -7,7 +7,8 @@ import time
 
 class Engine(object):
 
-    def __init__(self, setup, fighter, guy, guymagic):
+    def __init__(self, setup, guy, guymagic):
+        # Use these for moving_on()
         self.guy = guy
         self.guymagic = guymagic
         self.setup = setup
@@ -29,21 +30,34 @@ class Engine(object):
             print "\n[H]eal:5MP [S]andpaper:10MP [C]haos_Dunk:20MP [B]ack"
 
     def moving_on(self, setup):
+    # increments to the next fighter in FightOrder.fighter and goes through run with the new enemy
         new_enemy = setup.next_battle()
         self.run(self.guy, self.guymagic, new_enemy)
-        
+    
+    def retry(self, enemy):
+        print 'You died! So sad. A host of sorrows.\n\nWanna try again?'
+        my_answer = 1
+        while my_answer == 1:
+            print '[Y]es [N]o'
+            answer = raw_input("> ")
+            if answer in ("y", "yes"):
+                my_answer = 0
+                self.guy.hp = self.guy.maxhp
+                self.guy.mp = self.guy.maxmp
+                self.run(self.guy, self.guymagic, enemy)
+            elif answer in ('n', 'no'):
+                print "\n\nQuitter\n\n"
+                exit(1)
+            else:
+                print "Just [Y]es or [N]o, please."
 
     def run(self, hero, heromagic, enemy):
-        
-        print "A wild %s has appeared!" % enemy.name
-        time.sleep(1)
-        print "\'%s\'" % enemy.intro
-        time.sleep(1)
-        
+        # the mean and potatoes. plays the enemy intro, then a while loop so it goes back to the players turn.
+        enemy.enemy_intro()
         combat = True
         while combat== True:
 
-            if hero.hp  > 0:
+            if hero.hp  > 0: # Check if hero is alive
 
                 my_turn = 1
                 while my_turn == 1: #allows me to loop prompt until a satisfactory answer is given
@@ -72,12 +86,15 @@ class Engine(object):
                             print ""
 
                             if spell in ("h", "heal"):
-                                if hero.mp >= heromagic.heal_mp:
-                                    heromagic.heal(hero)
-                                    my_turn = 0 # break out of promt loop
-                                    magic_turn = 0
+                                if hero.hp == hero.maxhp:
+                                    print "I'm already at full health!"
                                 else:
-                                    print "Not enough MP"
+                                    if hero.mp >= heromagic.heal_mp:
+                                        heromagic.heal(hero)
+                                        my_turn = 0 # break out of promt loop
+                                        magic_turn = 0
+                                    else:
+                                        print "Not enough MP"
 
                             elif spell in ("s", "sandpaper"):
                                 if hero.mp >= heromagic.sandpaper_mp:
@@ -101,6 +118,9 @@ class Engine(object):
                             else:    
                                 print "404 error: The spell you are looking for cannot be found."
 
+                    elif action in ("y", "mystery"):
+                        print "This doesn't work yet, sorry!"
+
                     elif action in ("r", "run"):
                         hero.run()
                     else:
@@ -109,15 +129,14 @@ class Engine(object):
             else:
                 self.disp_stat(hero, enemy)
                 time.sleep(1)
-                print "You've died! So sad."
-                exit(1)
-            #print ""
+                self.retry(enemy)
 
             if enemy.hp < 0:
                 enemy.hp = 0 #that way he doesnt have negative health
-           # time.sleep(1)    
+
             self.disp_stat(hero, enemy)
             time.sleep(1)
+
             if enemy.hp > 0:
                 print "And now %s!" % enemy.name
                 time.sleep(1)
@@ -127,10 +146,7 @@ class Engine(object):
                 time.sleep(1)
 
             else:
-                print "\'%s\'" % enemy.outro
-                print ""
-                print "You win! Brllnt!"
-                hero.LevelUp(hero)
+                hero.LevelUp(hero, enemy)
                 combat = False
        
         self.moving_on(self.setup) 
@@ -157,5 +173,5 @@ hero = Character(hero_stats, hero_quotes)
 heromagic = Magic()
 setup = FightOrder()
 enemy = setup.opening_battle()
-a = Engine(setup, enemy, hero, heromagic)
+a = Engine(setup, hero, heromagic)
 a.run(hero, heromagic, enemy)

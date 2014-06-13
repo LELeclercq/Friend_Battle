@@ -9,7 +9,7 @@ class Magic(object):
         self.sandpaper_mp = 10
         self.chaos_mp = 20
 
-    def heal(self,caster):
+    def heal(self, caster):
         original_hp = caster.hp
         caster.hp += 5
         if caster.hp > caster.maxhp:
