@@ -99,7 +99,7 @@ nanny_stats = {
 
 nanny_quotes = ['nanny hacks the code itself and lowers your current_health stat!',
         'nanny tags out and lets Alara use her superior physical strength to just wail on you!',
-        'nanny creates a mecha out of spare computer parts and fire his Rocket Fist\n directly into your chest!',
+        'nanny creates a mecha out of spare computer parts and fire his Rocket Fist\ndirectly into your chest!',
         'nanny brings you up to his highest roof deck and kicks you off!',
         'nanny writes a virus that causes your computer to blow up in your face!']
 
@@ -155,7 +155,7 @@ hero_quotes = ['Lawrence says the opponent took damage, and Lawrence\'s always r
         'Lawrence prattles on and on for hours talking about Zelda!',
         'Lawrence channels his love of animation into a really nice fountain pen and\nthen stabs it into his opponent!',
         'Lawrence delivers a roundhouse kick to the head!',
-        'Lawrence spends a full hour on the finer points of JoJo\'s Bizarre Adventure\n exaplaining each character in depth as well as his disdain for the\n english translations. Eventually his opponent just punches himself\nin the face to get it over with.']
+        'Lawrence spends a full hour on the finer points of JoJo\'s Bizarre Adventure\nexaplaining each character in depth as well as his disdain for the\nenglish translations. Eventually his opponent just punches himself\nin the face to get it over with.']
 
 class Character(object):
 
@@ -198,7 +198,7 @@ class Character(object):
             damage = original_hp - opponent.hp
         print "%s takes %d damage!" % (opponent.name, damage)
 
-    def run(self):
+    def escape(self):
         run_loop = 1
         while run_loop == 1:
             really = raw_input("Are you sure? [Y]es [No]\n> ")

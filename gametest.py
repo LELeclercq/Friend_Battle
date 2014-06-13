@@ -123,7 +123,7 @@ class Engine(object):
                         print "This doesn't work yet, sorry!"
 
                     elif action in ("r", "run"):
-                        hero.run()
+                        hero.escape()
                     else:
                         print "Please type one of the words listed or simply the letter in the brackets."
 
@@ -179,6 +179,10 @@ class FightOrder(object):
 
     def opening_battle(self):
         return self.fighter[self.fight_num]
+
+
+print "Welcome to 'Fighting Friends'! I hope you enjoy!\n\n"
+raw_input("--Press ENTER to start--\n\n")
 
 hero = Character(hero_stats, hero_quotes)
 heromagic = Magic()
