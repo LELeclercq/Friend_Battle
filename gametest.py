@@ -16,10 +16,9 @@ class Engine(object):
 
 
     def disp_stat(self, good_guy, bad_guy):
-        print ""
-        print "HP: %d\t MP: %d" % (good_guy.hp, good_guy.mp)
-        print "%s\'s HP: " % bad_guy.name, bad_guy.hp
-        print ""
+        time.sleep(1)
+        print "\nHP: %d\t MP: %d" % (good_guy.hp, good_guy.mp)
+        print "%s\'s HP: %d\n" % (bad_guy.name, bad_guy.hp)
 
     def disp_magic(self, protag):
         if protag.lvl < 3:
@@ -31,7 +30,7 @@ class Engine(object):
 
     def moving_on(self, setup):
     # increments to the next fighter in FightOrder.fighter and goes through run with the new enemy
-        new_enemy = setup.next_battle()
+        new_enemy = setup.next_battle(self.guy)
         self.run(self.guy, self.guymagic, new_enemy)
     
     def retry(self, enemy):
@@ -44,15 +43,18 @@ class Engine(object):
                 my_answer = 0
                 self.guy.hp = self.guy.maxhp
                 self.guy.mp = self.guy.maxmp
+                enemy.hp = enemy.maxhp
+                enemy.mp = enemy.maxmp
                 self.run(self.guy, self.guymagic, enemy)
             elif answer in ('n', 'no'):
                 print "\n\nQuitter\n\n"
+                time.sleep(1)
                 exit(1)
             else:
                 print "Just [Y]es or [N]o, please."
 
     def run(self, hero, heromagic, enemy):
-        # the mean and potatoes. plays the enemy intro, then a while loop so it goes back to the players turn.
+        # the meat and potatoes. plays the enemy intro, then a while loop so it goes back to the players turn.
         enemy.enemy_intro()
         combat = True
         while combat== True:
@@ -72,7 +74,6 @@ class Engine(object):
 
                     if action in ("a", "attack"):
                         hero.attack(enemy)
-                        time.sleep(1)
                         my_turn = 0 # break out of prompt loop
 
                     elif action in ("m", "magic"):
@@ -129,6 +130,8 @@ class Engine(object):
             else:
                 self.disp_stat(hero, enemy)
                 time.sleep(1)
+
+                hero.deathmusic()
                 self.retry(enemy)
 
             if enemy.hp < 0:
@@ -143,10 +146,9 @@ class Engine(object):
                 enemy.ai(hero)
                 if hero.hp < 0:
                     hero.hp = 0 # if hero dies, go to 0 health
-                time.sleep(1)
 
             else:
-                hero.LevelUp(hero, enemy)
+                hero.LevelUp(enemy)
                 combat = False
        
         self.moving_on(self.setup) 
@@ -156,12 +158,21 @@ class FightOrder(object):
   
     def __init__(self):
         self.fight_num = 0
-        self.fighter = [Character(luke_stats, luke_quotes), Character(dom_stats, dom_quotes)]
+        self.fighter = [Character(luke_stats, luke_quotes),
+                Character(dom_stats, dom_quotes),
+                Character(jim_stats, jim_quotes),
+                Character(marshall_stats, marshall_quotes),
+                Character(shane_stats, shane_quotes),
+                Character(nanny_stats, nanny_quotes),
+                Character(chris_stats, chris_quotes),
+                Character(dave_stats, dave_quotes)]
    
-    def next_battle(self):
+    def next_battle(self, protagonist):
         self.fight_num += 1
         if self.fight_num >= len(self.fighter):
-            print "Congratulations! You've defeated all of your friends!\n\n\n"
+            protagonist.winmusic()
+            print "\nCongratulations! You've defeated all of your friends!\n\n\n"
+            raw_input('--Press ENTER to exit--')
             exit(1)
         else:
             return self.fighter[self.fight_num]

@@ -39,8 +39,8 @@ class Magic(object):
 
     def chaos_dunk(self, caster, slammed):
         original_hp = slammed.hp
-        slammed.hp -= 50
-        if original_hp - 50 < 0:
+        slammed.hp -= 25
+        if original_hp - 25 < 0:
             damage = original_hp
         else:
             damage = original_hp - slammed.hp
