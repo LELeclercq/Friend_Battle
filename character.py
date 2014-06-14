@@ -51,7 +51,7 @@ jim_quotes = ['Jim blows out your ears with a concentrated blast of deadmau5!',
         'Jim smothers you with his Senjougahara dakimakura!',
         'Final Spark: After gathering energy for half a second, Jim fires a broad and long-range\nbeam of light in a line that deals magic damage!',
         'Jim calls out his stand \'Knife Party\', causing a shower of knives to rain from the sky!'
-        'Jim forces you to watch one of his animus about cute girls doing cute things.\nThe cuteness is too overbearing and you suffer a magjor heart attack!']
+        'Jim forces you to watch one of his animus about cute girls doing cute things.\nThe cuteness is too overbearing and you suffer a major heart attack!']
 
 marshall_stats = {
         'name': 'Marshall',
@@ -91,8 +91,8 @@ nanny_stats = {
         'hp': 60,
         'mp': 30,
         'atkstr': range(7, 11),
-        'intro_quote': 'What\'d you write this in, VIM? How primitive, every knows that EMACs\nis the superior text editor.',
-        'outro_quote': 'Say goodbye to Lawrence, Alara.',
+        'intro_quote': 'What\'d you write this in, VIM? How primitive, everyone knows that EMACs\nis the superior text editor.',
+        'outro_quote': 'Alara, come say goodbye to Lawrence.',
         'music': 'nanny_battle.ogg',
         'bg': 'nanny_bg.jpg'
 }
@@ -119,14 +119,14 @@ chris_quotes = ['Chris stabs you 9 times with a shiv!',
         'Chris slices and dices you with an ordinary set of kitchen knives!',
         'Chris stabs you in the back with a butterfly knife!',
         'Chris uses his superior knowledge of the outdoors to set up a man-trap for you. You fall for it hook, line, and sinker!',
-        'Chris swings a shovel at you! Even though he\s 10 feet away, it still connects!']
+        'Chris swings a shovel at you! Even though he\'s 10 feet away, it still connects!']
 
 dave_stats = {
         'name': 'Dave',
         'hp': 100,
         'mp': 30,
         'atkstr': range(15, 21),
-        'intro_quote': 'When you die it\'ll be funny, becaus we knew you!',
+        'intro_quote': 'When you die it\'ll be funny, because we knew you!',
         'outro_quote': 'Too much bulking, not enough cutting...',
         'music': 'Dave_battle.ogg',
         'bg': 'Dave_bg.jpg'
@@ -136,7 +136,7 @@ dave_quotes = ['Dave deadlifts you a couple times before crushing you into the g
         'Dave delivers a heart break shot, stopping your heart for a second or two!',
         'Daves takes a wide stance and begins swaying in a figure-eight motion.\nSuddenly, he explodes with puches from both sides, using his\nmomentum to deliver his full body weight into each punch!',
         'Dave picks up a barbell and hurls it into you!',
-        'Dave swallows some protein powder, Popeye-style, delivers a punch\nso hard you fly out of your clothes!',
+        'Dave swallows some protein powder, Popeye-style, then delivers a punch\nso hard you fly out of your clothes!',
         'You cannot grasp the true form of Dave\'s attack!']
 
 hero_stats = {
@@ -155,7 +155,7 @@ hero_quotes = ['Lawrence says the opponent took damage, and Lawrence\'s always r
         'Lawrence prattles on and on for hours talking about Zelda!',
         'Lawrence channels his love of animation into a really nice fountain pen and\nthen stabs it into his opponent!',
         'Lawrence delivers a roundhouse kick to the head!',
-        'Lawrence spends a full hour on the finer points of JoJo\'s Bizarre Adventure\nexaplaining each character in depth as well as his disdain for the\nenglish translations. Eventually his opponent just punches himself\nin the face to get it over with.']
+        'Lawrence spends a full hour on the finer points of JoJo\'s Bizarre Adventure\nexplaining each character in depth as well as his disdain for the\nenglish translations. Eventually his opponent just punches himself\nin the face to get it over with.']
 
 class Character(object):
 
@@ -225,7 +225,7 @@ class Character(object):
         pygame.mixer.music.play(-1)
         print "\'%s\'" % enemy.outro
         print ""
-        print "You win! I mean it was an obvious outcome, since you're %s, but y\'know." % self.name
+        print "You win! I mean it was the obvious outcome, since you're %s, but y\'know." % self.name
         time.sleep(3)
 
         self.lvl += 1
@@ -241,7 +241,7 @@ class Character(object):
         time.sleep(1)
         print "ATK rose by 2!"
         time.sleep(1)
-        if self.lvl == 3:
+        if self.lvl == 4:
             time.sleep(1)
             print "%s has learned Chaos_Dunk!" % self.name
 
@@ -318,13 +318,13 @@ class Character(object):
             joutcome = randint(1, 4)
             if (joutcome == 1) and (self.mp >= jim_magic.greaterheal_mp):
                 jim_magic.greaterheal(self)
-            elif (houtcome == 2) and (self.mp >= jim_magic.sandpaper_mp):
-                jim_magic.sanpaper(self, hero)
+            elif (joutcome == 2) and (self.mp >= jim_magic.sandpaper_mp):
+                jim_magic.sandpaper(self, hero)
             else:
                 self.attack(hero)
         
         else:
-            joutcome3 = rand(1, 4)
+            joutcome3 = randint(1, 4)
             if ((joutcome3 == 1) or (joutcome3 == 2)) and (self.mp >= jim_magic.greaterheal_mp):
                 jim_magic.greaterheal(self)
             else:
@@ -398,7 +398,7 @@ class Character(object):
 
 
     def dave_ai(self, hero):
-        shane_magic = Magic()
+        dave_magic = Magic()
         if (self.hp < 61) and (self.hp >= 50):
             outcome = randint(1, 3)
             if (outcome == 1) and (self.mp >= dave_magic.heal_mp):

@@ -21,7 +21,7 @@ class Engine(object):
         print "%s\'s HP: %d\n" % (bad_guy.name, bad_guy.hp)
 
     def disp_magic(self, protag):
-        if protag.lvl < 3:
+        if protag.lvl < 4:
             print "Which spell?"
             print "\n[H]eal:5MP [S]andpaper:10MP [B]ack"
         else:
