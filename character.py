@@ -180,6 +180,7 @@ class Character(object):
         pygame.display.flip()
 
         pygame.mixer.music.load('music\\' + self.music)
+        pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play(-1)
 
         print "A wild %s has appeared!" % self.name
@@ -222,6 +223,7 @@ class Character(object):
 
     def LevelUp(self, enemy):
         pygame.mixer.music.load('music\lvlup.ogg')  # super buggy. pygame sucks.
+        pygame.mixer.music.set_volume(.5)
         pygame.mixer.music.play(-1)
         print "\'%s\'" % enemy.outro
         print ""
@@ -251,10 +253,12 @@ class Character(object):
 
     def deathmusic(self):
         pygame.mixer.music.load('music\death.ogg')
+        pygame.mixer.music.set_volume(.5)
         pygame.mixer.music.play(-1)
 
     def winmusic(self):
         pygame.mixer.music.load('music\win.ogg')
+        pygame.mixer.music.set_volume(.5)
         pygame.mixer.music.play(-1)
 
     def ai(self, hero):
