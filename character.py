@@ -50,7 +50,7 @@ jim_stats = {
 jim_quotes = ['Jim blows out your ears with a concentrated blast of deadmau5!',
         'Jim smothers you with his Senjougahara dakimakura!',
         'Final Spark: After gathering energy for half a second, Jim fires a broad and long-range\nbeam of light in a line that deals magic damage!',
-        'Jim calls out his stand \'Knife Party\', causing a shower of knives to rain from the sky!'
+        'Jim calls out his stand \'Knife Party\', causing a shower of knives to rain from the sky!',
         'Jim forces you to watch one of his animus about cute girls doing cute things.\nThe cuteness is too overbearing and you suffer a major heart attack!']
 
 marshall_stats = {
