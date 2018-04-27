@@ -183,12 +183,12 @@ class Character(object):
         pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play(-1)
 
-        print "A wild %s has appeared!" % self.name
+        print("A wild {} has appeared!".format(self.name))
         time.sleep(1)
-        print "\'%s\'" % self.intro
+        print ("\'{}\'".format(self.intro))
 
     def attack(self, opponent):
-        print self.quips[randint(0, len(self.quips) - 1)]
+        print(self.quips[randint(0, len(self.quips) - 1)])
         time.sleep(1)
         original_hp = opponent.hp
         strike = self.atkstr[randint(0, len(self.atkstr) - 1)]
@@ -197,37 +197,37 @@ class Character(object):
             damage = original_hp
         else:
             damage = original_hp - opponent.hp
-        print "%s takes %d damage!" % (opponent.name, damage)
+        print("{} takes {} damage!".format(opponent.name, damage))
 
     def escape(self):
         run_loop = 1
         while run_loop == 1:
-            really = raw_input("Are you sure? [Y]es [N]o\n> ")
+            really = input("Are you sure? [Y]es [N]o\n> ")
             really = really.lower()
             if really in ("y", "yes"):
                 
                 pygame.mixer.music.load('music\quit.ogg')  # super buggy. pygame sucks.
                 pygame.mixer.music.set_volume(.5)
                 pygame.mixer.music.play(-1)
-                print "You run from the fight. But it doesn\'t end there. "
-                print "The rest of your life you're branded a coward; someone who turns tail at\nthe slightest provacation. Your friends"
-                print "gradually grow distant from you, and you\nend your days as an old, bitter man who curses"
-                print "the world instead of himself.\n\n\nGAME OVER\n\n\n"
-                raw_input("--Press ENTER to exit--")
+                print("You run from the fight. But it doesn\'t end there. ")
+                print("The rest of your life you're branded a coward; someone who turns tail at\nthe slightest provacation. Your friends")
+                print("gradually grow distant from you, and you\nend your days as an old, bitter man who curses")
+                print("the world instead of himself.\n\n\nGAME OVER\n\n\n")
+                input("--Press ENTER to exit--")
                 exit(1)
             elif really in ("n", "no"):
-                print "Then why'd you choose Run, silly?"
+                print("Then why'd you choose Run, silly?")
                 run_loop = 0
             else:
-                print "Just [Y]es or [N]o, thank you.\n"
+                print("Just [Y]es or [N]o, thank you.\n")
 
     def LevelUp(self, enemy):
         pygame.mixer.music.load('music\lvlup.ogg')  # super buggy. pygame sucks.
         pygame.mixer.music.set_volume(.5)
         pygame.mixer.music.play(-1)
-        print "\'%s\'" % enemy.outro
-        print ""
-        print "You win! I mean it was the obvious outcome, since you're %s, but y\'know." % self.name
+        print("\'{}\'".format(enemy.outro))
+        print("")
+        print("You win! I mean it was the obvious outcome, since you're {}, but y\'know.".format(self.name))
         time.sleep(3)
 
         self.lvl += 1
@@ -235,20 +235,20 @@ class Character(object):
         self.maxhp = self.hp
         self.mp = ((self.lvl - 1) * 4) + 10
         self.atkstr = [((self.lvl - 1) * 2) + x for x in self.atkstr]
-        print "%s has reached Level %d!" % (self.name, self.lvl)
+        print("{} has reached Level {}!".format(self.name, self.lvl))
         time.sleep(1)
-        print "HP rose to %d!" % self.hp
+        print("HP rose to {}!".format(self.hp))
         time.sleep(1)
-        print "MP rose to %d!" % self.mp
+        print("MP rose to {}!".format(self.mp))
         time.sleep(1)
-        print "ATK rose by 2!"
+        print("ATK rose by 2!")
         time.sleep(1)
         if self.lvl == 4:
             time.sleep(1)
-            print "%s has learned Chaos_Dunk!" % self.name
+            print("{} has learned Chaos_Dunk!".format(self.name))
 
-        print "\n\n"
-        raw_input("--Press ENTER to continue--\n")
+        print("\n\n")
+        input("--Press ENTER to continue--\n")
         time.sleep(2)
 
     def deathmusic(self):

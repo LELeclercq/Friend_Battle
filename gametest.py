@@ -17,16 +17,16 @@ class Engine(object):
 
     def disp_stat(self, good_guy, bad_guy):
         time.sleep(1)
-        print "\nHP: %d\t MP: %d" % (good_guy.hp, good_guy.mp)
-        print "%s\'s HP: %d\n" % (bad_guy.name, bad_guy.hp)
+        print("\nHP: {}\t MP: {}".format(good_guy.hp, good_guy.mp))
+        print("{}\'s HP: {}\n".format(bad_guy.name, bad_guy.hp))
 
     def disp_magic(self, protag):
         if protag.lvl < 4:
-            print "Which spell?"
-            print "\n[H]eal:5MP [S]andpaper:10MP [B]ack"
+            print("Which spell?")
+            print("\n[H]eal:5MP [S]andpaper:10MP [B]ack")
         else:
-            print "Which spell?"
-            print "\n[H]eal:5MP [S]andpaper:10MP [C]haos_Dunk:20MP [B]ack"
+            print("Which spell?")
+            print("\n[H]eal:5MP [S]andpaper:10MP [C]haos_Dunk:20MP [B]ack")
 
     def moving_on(self, setup):
     # increments to the next fighter in FightOrder.fighter and goes through run with the new enemy
@@ -34,11 +34,11 @@ class Engine(object):
         self.run(self.guy, self.guymagic, new_enemy)
     
     def retry(self, enemy):
-        print 'You died! So sad. A host of sorrows.\n\nWanna try again?'
+        print("You died! So sad. A host of sorrows.\n\nWanna try again?")
         my_answer = 1
         while my_answer == 1:
-            print '[Y]es [N]o'
-            answer = raw_input("> ")
+            print("[Y]es [N]o")
+            answer = input("> ")
             if answer in ("y", "yes"):
                 my_answer = 0
                 self.guy.hp = self.guy.maxhp
@@ -47,11 +47,11 @@ class Engine(object):
                 enemy.mp = enemy.maxmp
                 self.run(self.guy, self.guymagic, enemy)
             elif answer in ('n', 'no'):
-                print "\n\nQuitter\n\n"
+                print("\n\nQuitter\n\n")
                 time.sleep(1)
                 exit(1)
             else:
-                print "Just [Y]es or [N]o, please."
+                print("Just [Y]es or [N]o, please.")
 
     def run(self, hero, heromagic, enemy):
         # the meat and potatoes. plays the enemy intro, then a while loop so it goes back to the players turn.
@@ -66,11 +66,11 @@ class Engine(object):
 
                     self.disp_stat(hero, enemy)
                     time.sleep(1)
-                    print "What will you do?"
-                    print "\n[A]ttack [M]agic M[y]stery [R]un"
-                    action = raw_input("> ")
+                    print("What will you do?")
+                    print("\n[A]ttack [M]agic M[y]stery [R]un")
+                    action = input("> ")
                     action = action.lower()
-                    print ""
+                    print("")
 
                     if action in ("a", "attack"):
                         hero.attack(enemy)
@@ -82,20 +82,20 @@ class Engine(object):
                         while magic_turn == 1:
 
                             self.disp_magic(hero)
-                            spell = raw_input("> ")
+                            spell = input("> ")
                             spell = spell.lower()
-                            print ""
+                            print("")
 
                             if spell in ("h", "heal"):
                                 if hero.hp == hero.maxhp:
-                                    print "I'm already at full health!"
+                                    print("I'm already at full health!")
                                 else:
                                     if hero.mp >= heromagic.heal_mp:
                                         heromagic.heal(hero)
                                         my_turn = 0 # break out of promt loop
                                         magic_turn = 0
                                     else:
-                                        print "Not enough MP"
+                                        print("Not enough MP")
 
                             elif spell in ("s", "sandpaper"):
                                 if hero.mp >= heromagic.sandpaper_mp:
@@ -103,7 +103,7 @@ class Engine(object):
                                     my_turn = 0 # break out of prompt loop
                                     magic_turn = 0
                                 else:
-                                    print "Not enough MP"
+                                    print("Not enough MP")
 
                             elif (spell in ("c", "chaos", "chaos_dunk", "chaos dunk")) and (hero.lvl >= 3):
                                 if hero.mp >= heromagic.chaos_mp:
@@ -111,21 +111,21 @@ class Engine(object):
                                     my_turn = 0 # break out of prompt loop
                                     magic_turn = 0
                                 else:
-                                    print "Not enough MP"
+                                    print("Not enough MP")
 
                             elif spell in ("b", "back"):
                                 magic_turn = 0
 
                             else:    
-                                print "404 error: The spell you are looking for cannot be found."
+                                print("404 error: The spell you are looking for cannot be found.")
 
                     elif action in ("y", "mystery"):
-                        print "This doesn't work yet, sorry!"
+                        print("This doesn't work yet, sorry!")
 
                     elif action in ("r", "run"):
                         hero.escape()
                     else:
-                        print "Please type one of the words listed or simply the letter in the brackets."
+                        print("Please type one of the words listed or simply the letter in the brackets.")
 
             else:
                 self.disp_stat(hero, enemy)
@@ -141,7 +141,7 @@ class Engine(object):
             time.sleep(1)
 
             if enemy.hp > 0:
-                print "And now %s!" % enemy.name
+                print("And now {}!".format(enemy.name))
                 time.sleep(1)
                 enemy.ai(hero)
                 if hero.hp < 0:
@@ -171,8 +171,8 @@ class FightOrder(object):
         self.fight_num += 1
         if self.fight_num >= len(self.fighter):
             protagonist.winmusic()
-            print "\nCongratulations! You've defeated all of your friends!\n\n\n"
-            raw_input('--Press ENTER to exit--')
+            print("\nCongratulations! You've defeated all of your friends!\n\n\n")
+            input('--Press ENTER to exit--')
             exit(1)
         else:
             return self.fighter[self.fight_num]
