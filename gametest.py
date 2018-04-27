@@ -1,9 +1,20 @@
+#!/c/Python363/python
+
 from character import *
 from magic import *
 from sys import exit
 import time
 
+def main():
+    print("Welcome to 'Fighting Friends'! I hope you enjoy!\n\n")
+    input("--Press ENTER to start--\n\n")
 
+    hero = Character(hero_stats, hero_quotes)
+    heromagic = Magic()
+    setup = FightOrder()
+    enemy = setup.opening_battle()
+    a = Engine(setup, hero, heromagic)
+    a.run(hero, heromagic, enemy)
 
 class Engine(object):
 
@@ -181,12 +192,5 @@ class FightOrder(object):
         return self.fighter[self.fight_num]
 
 
-print "Welcome to 'Fighting Friends'! I hope you enjoy!\n\n"
-raw_input("--Press ENTER to start--\n\n")
-
-hero = Character(hero_stats, hero_quotes)
-heromagic = Magic()
-setup = FightOrder()
-enemy = setup.opening_battle()
-a = Engine(setup, hero, heromagic)
-a.run(hero, heromagic, enemy)
+if __name__ == "__main__":
+    main()
